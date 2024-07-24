@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>lm_autopricepack</name>
+    <displayName><![CDATA[LM Auto Calculate Product Pack Price]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[Automatically calculates and updates pack price when prices of its items are changed]]></description>
+    <author><![CDATA[Lo&iuml;c MARTIN]]></author>
+    <tab><![CDATA[advertising_marketing]]></tab>
+    <is_configurable>0</is_configurable>
+    <need_instance>0</need_instance>
+</module>
