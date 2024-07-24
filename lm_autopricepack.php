@@ -44,7 +44,6 @@ class Lm_Autopricepack extends Module {
       // Unregister the hooks.
       if (!parent::uninstall() ||
           !$this->unregisterHook('actionProductUpdate') // Unregister the actionProductUpdate hook.
-  
       ) {
           return false;
       }
@@ -57,45 +56,34 @@ class Lm_Autopricepack extends Module {
 
     $updatedProductId = (int)$params['id_product'];
 
-    // Log the product update action
-    PrestaShopLogger::addLog('Product update hook triggered for product ID: ' . $updatedProductId);
+    $getProductInPack = "SELECT id_product_pack FROM " . _DB_PREFIX_ . "pack WHERE id_product_item = " . $updatedProductId;
+    $resultProductInPack =  Db::getInstance()->executeS($getProductInPack);
 
-    // Retrieve packs and their items in a single query
-    $query = "SELECT p1.id_product_pack, p2.id_product_item 
-              FROM " . _DB_PREFIX_ . "pack p1
-              LEFT JOIN " . _DB_PREFIX_ . "pack p2 ON p1.id_product_pack = p2.id_product_pack
-              WHERE p1.id_product_item = " . $updatedProductId;
+    if($resultProductInPack) {
+      // PrestaShopLogger::addLog('Product update hook triggered for product ID: ' . print_r($resultProductInPack,true));
 
-    $result = Db::getInstance()->executeS($query);
+      foreach($resultProductInPack as $productPack) {
+        $getPackQuery = "SELECT id_product_item, quantity FROM " . _DB_PREFIX_ . "pack WHERE id_product_pack = " . $productPack['id_product_pack'];
+        $resultPackQuery =  Db::getInstance()->executeS($getPackQuery);
 
-    if ($result) {
-        // $packProducts = [];
-        $packId = $result[0]['id_product_pack'];
-
-        PrestaShopLogger::addLog('Products in pack' . print_r($result, true));
-
-        // Logic to update the pack price
         $totalPrice = 0;
-        foreach ($result as $product) {
-            $product = new Product($product['id_product_item']);
-
-            $priceQuery = "SELECT price FROM " . _DB_PREFIX_ . "product WHERE id_product = " . $product->id;
-            $priceResult = Db::getInstance()->getValue($priceQuery);
-
-            $totalPrice += (float)$priceResult;
+        foreach($resultPackQuery as $product) {
+          $productInPack = new Product($product['id_product_item']);
+          $totalPrice += $productInPack->price * $product['quantity'];
         }
-
+        // PrestaShopLogger::addLog('Product pack ID : '.$productPack['id_product_pack'] .' price of the pack : ' . $totalPrice);
         if($totalPrice > 0) {
-          $product = new Product($packId);
+          $product = new Product($productPack['id_product_pack']);
           $product->price = $totalPrice;
-          PrestaShopLogger::addLog('Updated price of pack ID: ' . $packId . ' to: ' . $totalPrice);
-          $this->isSaved = true;
-          
+          PrestaShopLogger::addLog('Updated price of pack ID: ' . $product->id . ' to: ' . $totalPrice);
           $product->save();
+        }
       }
+
+      $this->isSaved = true;
     } else {
-        $this->isSaved = true;
-        PrestaShopLogger::addLog('No packs found for product ID: ' . $updatedProductId);
+      PrestaShopLogger::addLog('The product ID : ' . $updatedProductId . ' is not in a pack');
+      $this->isSaved = true;
     }
   }
 }
