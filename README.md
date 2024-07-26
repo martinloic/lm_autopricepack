@@ -9,7 +9,11 @@ The PrestaShop module `lm_autopricepack` is designed to automate the updating of
 
 ## Installation Instructions
 To install the module, follow these steps:
-1. Copy the module files to the `modules` directory of your PrestaShop installation.
+1. [Download a .zip release](https://github.com/martinloic/lm_account_transfer/releases) and install it like any other module.
+
+Or
+
+1. Copy the module files to the `modules` directory of your PrestaShop installation
 2. Go to the PrestaShop admin panel.
 3. Navigate to the `Modules` section and search for `LM Auto Calculate Product Pack Price`.
 4. Click on `Install`.
