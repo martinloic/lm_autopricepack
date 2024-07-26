@@ -23,8 +23,8 @@ To uninstall the module, follow these steps:
 ## Usage
 Once installed, the module will automatically update pack prices whenever a product price is changed. No additional configuration is necessary.
 
-You can disable two things :
-- Update pack price when child product is updated <i>(If this option is enabled, the module will auto calculate pack price if any of its child products are updated.)</i>
-- Update pack price when pack is updated <i>(If this option is enabled, the module will auto calculate pack price when the pack itself is updated)</i>
+You can enable/disable two things :
+- **Update pack price when child product is updated** : If this option is enabled, the module will auto calculate pack price if any of its child products are updated.
+- **Update pack price when pack is updated** : If this option is enabled, the module will auto calculate pack price when the pack itself is updated.
 
-
+*Both of these options are enabled by default*
