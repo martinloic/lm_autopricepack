@@ -1,4 +1,4 @@
-# LM Auto Calculate Product Pack Price
+# Prestashop - LM - Auto Calculate Product Pack Price
 
 ## Overview
 The PrestaShop module `lm_autopricepack` is designed to automate the updating of pack prices. It automatically recalculates the price of a product pack whenever the price of an item within the pack changes. This ensures that the pack price always reflects the current prices of its components.
